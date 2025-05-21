@@ -13,7 +13,7 @@
         }
 
         .wheel {
-            transition: transform 8s cubic-bezier(0.3, 0, 0.2, 1);
+            transition: transform 4s cubic-bezier(0.3, 0, 0.2, 1);
         }
 
         .popup {
@@ -46,7 +46,7 @@
             display: inline-block;
             margin: 20px 0;
             font-size: 2em;
-            color: #25D366;
+            color: #ffffff;
         }
 
         .glow {
@@ -151,39 +151,21 @@
     <div id="lightingEffect" class="lighting-effect"></div>
 
     <script>
-        let currentRotation = 0;
-
         function spinWheel() {
             const wheel = document.getElementById('wheel');
-            wheel.style.transition = 'none';
-            wheel.style.transform = `rotate(${currentRotation}deg)`;
-
-            setTimeout(() => {
-                // Calculate the degrees needed to stop at img4 (180 degrees position)
-                const targetPosition = 180; // img4 is at 180 degrees
-                const currentAngle = currentRotation % 360; // Current angle after removing full rotations
-                const degreesToTarget = (360 - currentAngle + targetPosition) % 360; // Degrees needed to reach target
-                const fullRotations = 20; // Number of full rotations
-                const totalDegrees = (360 * fullRotations) + degreesToTarget; // Total degrees to rotate
-                
-                wheel.style.transition = 'transform 8s cubic-bezier(0.3, 0, 0.2, 1)';
-                wheel.style.transform = `rotate(${currentRotation + totalDegrees}deg)`;
-                currentRotation += totalDegrees;
-                setTimeout(showPopup, 8500);
-
-                // Schedule next spin after popup is shown and closed
-                setTimeout(() => {
-                    closePopup();
-                    spinWheel();
-                }, 12000);
-            }, 50);
+            const fullRotations = 8; // Reduced number of rotations
+            const targetDeg = 180; // img4 is at 180 degrees
+            const totalDeg = (360 * fullRotations) + targetDeg;
+            
+            wheel.style.transition = 'transform 4s cubic-bezier(0.3, 0, 0.2, 1)';
+            wheel.style.transform = `rotate(${totalDeg}deg)`;
+            setTimeout(showPopup, 4200); // Show popup after 4.2 seconds
         }
 
         // Start spinning when page loads
         window.onload = spinWheel;
 
         function showPopup() {
-            // Always show img4 as the winner
             const winningImage = document.getElementById('label4').querySelector('img').src;
             document.getElementById('popupImage').src = winningImage;
             document.getElementById('popup').style.display = 'block';
